@@ -1,13 +1,19 @@
 from MPDataset import MPDataset
-from MEGNet_PyTorch.model.Struct2Graph import SimpleCrystalConverter, GaussianDistanceConverter
+from model.Struct2Graph import SimpleCrystalConverter, GaussianDistanceConverter
 from torch_geometric.loader import DataLoader
+import click
 
 
-dataset = MPDataset("./mp.2018.dataset", pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
-dataloader = DataLoader(dataset, batch_size=100, shuffle=False)
+@click.command()
+@click.argument('dataset_path')
+def main(dataset_path):
+    dataset = MPDataset(dataset_path,
+                        pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
+    dataloader = DataLoader(dataset, batch_size=100, shuffle=False)
+
+    for batch in dataloader:
+        print(batch)
 
 
-for batch in dataloader:
-    print(batch)
-    print(batch.y)
-    print(batch.bond_batch)
+if __name__ == '__main__':
+    main()
