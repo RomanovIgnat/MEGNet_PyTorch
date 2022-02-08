@@ -56,7 +56,7 @@ def main(dataset_path):
 
                 total.append(F.l1_loss(preds, y, reduction='sum'))
 
-            print(sum(total) / len(testset))
+            print(sum(total) / 9239)
 
 
 if __name__ == '__main__':
