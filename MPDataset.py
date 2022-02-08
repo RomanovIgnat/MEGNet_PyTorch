@@ -19,7 +19,8 @@ class MPDataset(InMemoryDataset):
         return ["data.pt"]
 
     @staticmethod
-    def string2struct(elem):
+    def string2struct(elem, i):
+        print(i)
         struct = CifParser.from_string(elem['structure']).get_structures()[0]
         struct.y = elem['formation_energy_per_atom']
         return struct
@@ -29,7 +30,7 @@ class MPDataset(InMemoryDataset):
 
         print(1)
 
-        structures_list = [self.string2struct(s) for s in raw_data]
+        structures_list = [self.string2struct(s, i) for i, s in enumerate(raw_data)]
 
         print(2)
 
