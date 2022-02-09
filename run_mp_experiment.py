@@ -13,8 +13,8 @@ import torch.nn.functional as F
 def main(dataset_path):
     dataset = MPDataset(dataset_path,
                         pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
-    trainset = dataset[:500]
-    testset = dataset[500:]
+    trainset = dataset[:60000]
+    testset = dataset[60000:]
 
     trainloader = DataLoader(trainset, batch_size=100, shuffle=True)
     testloader = DataLoader(testset, batch_size=200, shuffle=False)

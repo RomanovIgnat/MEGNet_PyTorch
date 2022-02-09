@@ -20,14 +20,14 @@ class MPDataset(InMemoryDataset):
 
     @staticmethod
     def string2struct(elem, i):
-        print(i)
+        if not i % 100:
+            print(i)
         struct = CifParser.from_string(elem['structure']).get_structures()[0]
         struct.y = elem['formation_energy_per_atom']
         return struct
 
     def process(self):
         raw_data = loadfn(osp.join(self.raw_dir, "mp.2018.6.1.json"))
-        raw_data = raw_data[:600]
 
         print(1)
 
