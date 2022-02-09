@@ -16,6 +16,9 @@ def main(dataset_path):
     trainset = dataset[:60000]
     testset = dataset[60000:]
 
+    print(len(trainset))
+    print(len(testset))
+
     trainloader = DataLoader(trainset, batch_size=100, shuffle=True)
     testloader = DataLoader(testset, batch_size=200, shuffle=False)
 
@@ -28,6 +31,7 @@ def main(dataset_path):
 
         model.train(True)
         for i, batch in enumerate(trainloader):
+            print(batch)
             batch = batch.to(device)
             y = batch.y
 
