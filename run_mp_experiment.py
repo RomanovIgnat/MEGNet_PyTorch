@@ -14,6 +14,8 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 def main(dataset_path):
     dataset = MPDataset(dataset_path,
                         pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
+    torch.manual_seed(17)
+    dataset = dataset.shuffle()
 
     trainset = dataset[:60000]
     testset = dataset[60000:]
