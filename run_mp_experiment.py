@@ -13,6 +13,13 @@ import torch.nn.functional as F
 def main(dataset_path):
     dataset = MPDataset(dataset_path,
                         pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
+
+    dataloader = DataLoader(dataset, batch_size=100, shuffle=False)
+
+    for i, batch in enumerate(dataloader):
+        print(i, batch)
+
+    '''
     trainset = dataset[:60000]
     testset = dataset[60000:]
 
@@ -61,6 +68,7 @@ def main(dataset_path):
                 total.append(F.l1_loss(preds, y, reduction='sum').to('cpu').data.numpy())
 
             print(sum(total) / 9239)
+            '''
 
 
 if __name__ == '__main__':
