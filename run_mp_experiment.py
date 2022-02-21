@@ -6,6 +6,7 @@ from torch_geometric.loader import DataLoader
 import click
 from model.MEGNet import MEGNet
 import torch.nn.functional as F
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
 @click.command()
@@ -27,8 +28,11 @@ def main(dataset_path):
 
     model = MEGNet().to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=10, threshold=5e-2, verbose=True)
 
     for epoch in range(500):
+
+        print(epoch, end=" ")
 
         model.train(True)
         for i, batch in enumerate(trainloader):
@@ -61,6 +65,8 @@ def main(dataset_path):
                 total.append(F.l1_loss(preds, y, reduction='sum').to('cpu').data.numpy())
 
             print(sum(total) / len(testset))
+
+        scheduler.step(sum(total) / len(testset))
 
 
 if __name__ == '__main__':
