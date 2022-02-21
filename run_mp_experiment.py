@@ -32,7 +32,6 @@ def main(dataset_path):
 
         model.train(True)
         for i, batch in enumerate(trainloader):
-            print(batch)
             batch = batch.to(device)
             y = batch.y
 
