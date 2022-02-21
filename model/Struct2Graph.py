@@ -27,6 +27,9 @@ class SimpleCrystalConverter:
         exclude_self = center_indices != neighbor_indices
 
         edge_index = torch.Tensor(np.stack((center_indices[exclude_self], neighbor_indices[exclude_self]))).long()
+        if torch.numel(edge_index) == 0:
+            return None
+
         x = torch.Tensor(self.atom_converter.convert(np.array([i.specie.Z for i in d])))
         edge_attr = torch.Tensor(self.bond_converter.convert(distances[exclude_self]))
         state = getattr(d, "state", None) or [[0.0, 0.0]]

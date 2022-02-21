@@ -14,7 +14,9 @@ def main(dataset_path):
     dataset = MPDataset(dataset_path,
                         pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
 
-    dataloader = DataLoader(dataset[5200:5301], batch_size=1, shuffle=False)
+    print(len(dataset))
+
+    dataloader = DataLoader(dataset, batch_size=100, shuffle=False)
 
     for i, batch in enumerate(dataloader):
         print(i, batch)

@@ -37,6 +37,7 @@ class MPDataset(InMemoryDataset):
 
         if self.pre_transform is not None:
             data_list = [self.pre_transform(data) for data in structures_list]
+            data_list = [data for data in data_list if data]
         else:
             raise "you should give struct2graph converter"
 
