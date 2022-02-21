@@ -30,9 +30,9 @@ def main(dataset_path):
 
     model = MEGNet().to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=150, threshold=5e-2, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=100, threshold=5e-2, verbose=True)
 
-    for epoch in range(600):
+    for epoch in range(2000):
 
         print(epoch, end=" ")
 
