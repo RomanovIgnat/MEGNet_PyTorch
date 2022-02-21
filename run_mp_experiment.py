@@ -23,16 +23,16 @@ def main(dataset_path):
     print(len(trainset))
     print(len(testset))
 
-    trainloader = DataLoader(trainset, batch_size=100, shuffle=True)
+    trainloader = DataLoader(trainset, batch_size=200, shuffle=True)
     testloader = DataLoader(testset, batch_size=200, shuffle=False)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     model = MEGNet().to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=10, threshold=5e-2, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=150, threshold=5e-2, verbose=True)
 
-    for epoch in range(500):
+    for epoch in range(600):
 
         print(epoch, end=" ")
 
@@ -50,7 +50,7 @@ def main(dataset_path):
             opt.step()
             opt.zero_grad()
 
-            if not i % 60:
+            if not i % 30:
                 print(f'{loss.to("cpu").data.numpy(): .3f}', end=" ")
 
         total = []
