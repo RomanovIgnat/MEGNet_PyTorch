@@ -17,8 +17,8 @@ def main(dataset_path):
     torch.manual_seed(17)
     dataset = dataset.shuffle()
 
-    trainset = dataset[:60000]
-    testset = dataset[60000:]
+    trainset = dataset[:64000]
+    testset = dataset[64000:]
 
     print(len(trainset))
     print(len(testset))
@@ -30,7 +30,7 @@ def main(dataset_path):
 
     model = MEGNet().to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=100, threshold=5e-2, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=100, threshold=5e-2, verbose=True, min_lr=1e-4)
 
     for epoch in range(2000):
 
