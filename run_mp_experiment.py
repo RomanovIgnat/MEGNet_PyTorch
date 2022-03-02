@@ -18,8 +18,8 @@ def main(dataset_path):
     torch.manual_seed(17)
     dataset = dataset.shuffle()
 
-    trainset = dataset[:64000]
-    testset = dataset[64000:]
+    trainset = dataset[:64500]
+    testset = dataset[64500:]
 
     scaler = Scaler()
     scaler.fit(trainset)
@@ -27,7 +27,7 @@ def main(dataset_path):
     print(len(trainset))
     print(len(testset))
 
-    trainloader = DataLoader(trainset, batch_size=200, shuffle=False)
+    trainloader = DataLoader(trainset, batch_size=200, shuffle=True)
     testloader = DataLoader(testset, batch_size=200, shuffle=False)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
