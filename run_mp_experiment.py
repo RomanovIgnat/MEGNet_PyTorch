@@ -7,6 +7,7 @@ import click
 from model.MEGNet import MEGNet
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+from utils import Scaler
 
 
 @click.command()
@@ -20,17 +21,20 @@ def main(dataset_path):
     trainset = dataset[:64000]
     testset = dataset[64000:]
 
+    scaler = Scaler()
+    scaler.fit(trainset)
+
     print(len(trainset))
     print(len(testset))
 
-    trainloader = DataLoader(trainset, batch_size=200, shuffle=True)
+    trainloader = DataLoader(trainset, batch_size=200, shuffle=False)
     testloader = DataLoader(testset, batch_size=200, shuffle=False)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     model = MEGNet().to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=100, threshold=5e-2, verbose=True, min_lr=1e-4)
+    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=150, threshold=5e-2, verbose=True, min_lr=1e-4)
 
     for epoch in range(2000):
 
@@ -39,7 +43,7 @@ def main(dataset_path):
         model.train(True)
         for i, batch in enumerate(trainloader):
             batch = batch.to(device)
-            y = batch.y
+            y = scaler.transform(batch.y)
 
             preds = model(
                 batch.x, batch.edge_index, batch.edge_attr, batch.state, batch.batch, batch.bond_batch
@@ -50,7 +54,7 @@ def main(dataset_path):
             opt.step()
             opt.zero_grad()
 
-            if not i % 30:
+            if not i % 32:
                 print(f'{loss.to("cpu").data.numpy(): .3f}', end=" ")
 
         total = []
@@ -64,7 +68,7 @@ def main(dataset_path):
                     batch.x, batch.edge_index, batch.edge_attr, batch.state, batch.batch, batch.bond_batch
                 ).squeeze()
 
-                total.append(F.l1_loss(preds, y, reduction='sum').to('cpu').data.numpy())
+                total.append(F.l1_loss(scaler.inverse_transform(preds), y, reduction='sum').to('cpu').data.numpy())
 
             print(sum(total) / len(testset))
 
