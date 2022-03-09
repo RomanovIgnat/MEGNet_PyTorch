@@ -49,13 +49,13 @@ def main(dataset_path):
                 batch.x, batch.edge_index, batch.edge_attr, batch.state, batch.batch, batch.bond_batch
             ).squeeze()
 
-            loss = F.l1_loss(preds, y)
+            loss = F.mse_loss(y, preds)
             loss.backward()
             opt.step()
             opt.zero_grad()
 
             if not i % 32:
-                print(f'{loss.to("cpu").data.numpy(): .3f}', end=" ")
+                print(f'{1000 * loss.to("cpu").data.numpy(): .3f}', end=" ")
 
         total = []
         model.train(False)
