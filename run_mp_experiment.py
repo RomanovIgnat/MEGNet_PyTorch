@@ -15,8 +15,8 @@ from utils import Scaler
 def main(dataset_path):
     dataset = MPDataset(dataset_path,
                         pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
-    # torch.manual_seed(17)
-    # dataset = dataset.shuffle()
+    torch.manual_seed(17)
+    dataset = dataset.shuffle()
 
     trainset = dataset[:64500]
     testset = dataset[64500:]
@@ -34,7 +34,7 @@ def main(dataset_path):
 
     model = MEGNet().to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=80, threshold=5e-2, verbose=True, min_lr=1e-4)
+    scheduler = ReduceLROnPlateau(optimizer=opt, factor=0.5, patience=100, threshold=5e-2, verbose=True, min_lr=1e-4)
 
     for epoch in range(2000):
 
