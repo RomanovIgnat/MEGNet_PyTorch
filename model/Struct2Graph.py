@@ -30,7 +30,7 @@ class SimpleCrystalConverter:
         if torch.numel(edge_index) == 0:
             return None
 
-        x = torch.Tensor(self.atom_converter.convert(np.array([i.specie.Z for i in d])))
+        x = torch.Tensor(self.atom_converter.convert(np.array([i.specie.Z for i in d]))).long()
         edge_attr = torch.Tensor(self.bond_converter.convert(distances[exclude_self]))
         state = getattr(d, "state", None) or [[0.0, 0.0]]
         y = d.y if hasattr(d, "y") else 0
