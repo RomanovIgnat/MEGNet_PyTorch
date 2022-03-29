@@ -58,9 +58,3 @@ class GaussianDistanceConverter:
         return np.exp(
             -((d.reshape((-1, 1)) - self.centers.reshape((1, -1))) / self.sigma) ** 2
         )
-
-
-if __name__ == '__main__':
-    structure = Structure(Lattice.cubic(3.167), ['Mo', 'Mo'], [[0, 0, 0], [0.5, 0.5, 0.5]])
-    Sconv = SimpleCrystalConverter(bond_converter=GaussianDistanceConverter())
-    print(Sconv.convert(structure))

@@ -29,19 +29,13 @@ class MPDataset(InMemoryDataset):
     def process(self):
         raw_data = loadfn(osp.join(self.raw_dir, "mp.2018.6.1.json"))
 
-        print(1)
-
         structures_list = [self.string2struct(s, i) for i, s in enumerate(raw_data)]
-
-        print(2)
 
         if self.pre_transform is not None:
             data_list = [self.pre_transform(data) for data in structures_list]
             data_list = [data for data in data_list if data]
         else:
             raise "you should give struct2graph converter"
-
-        print(3)
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])

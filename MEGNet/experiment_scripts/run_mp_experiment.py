@@ -1,13 +1,13 @@
 import torch.cuda
-
-from MPDataset import MPDataset
-from model.Struct2Graph import SimpleCrystalConverter, GaussianDistanceConverter
-from torch_geometric.loader import DataLoader
 import click
-from model.MEGNet import MEGNet
 import torch.nn.functional as F
+
+from MEGNet.utils.MPDataset import MPDataset
+from MEGNet.model.Struct2Graph import SimpleCrystalConverter, GaussianDistanceConverter
+from torch_geometric.loader import DataLoader
+from MEGNet.model.MEGNet import MEGNet
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from utils import Scaler
+from MEGNet.utils.utils import Scaler
 
 
 @click.command()
