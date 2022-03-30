@@ -21,7 +21,6 @@ class MPDataset(InMemoryDataset):
 
     def process(self):
         raw_data = loadfn(osp.join(self.raw_dir, "mp.2018.6.1.json"))
-        raw_data = raw_data[:100]
 
         converter = String2StructConverter('formation_energy_per_atom')
         structures_list = [converter.convert(s) for s in tqdm(raw_data)]
