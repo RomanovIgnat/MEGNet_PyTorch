@@ -1,4 +1,4 @@
-MEGNet/experiments_data/
+experiments_data/
 MEGNet/dataset_test.py
 MEGNet_test.egg-info/
 .idea/
