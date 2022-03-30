@@ -1,4 +1,5 @@
 MEGNet/experiments_data/
 MEGNet/dataset_test.py
-/MEGNet_test.egg-info/
-/.idea/
+MEGNet_test.egg-info/
+.idea/
+__pycache__/
