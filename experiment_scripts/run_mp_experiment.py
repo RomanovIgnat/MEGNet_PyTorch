@@ -3,11 +3,12 @@ import click
 import torch.nn.functional as F
 
 from MEGNet.utils.MPDataset import MPDataset
-from MEGNet.model.Struct2Graph import SimpleCrystalConverter, GaussianDistanceConverter
+from MEGNet.utils.Struct2Graph import SimpleCrystalConverter, GaussianDistanceConverter
 from torch_geometric.loader import DataLoader
 from MEGNet.model.MEGNet import MEGNet
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from MEGNet.utils.utils import Scaler
+from MEGNet.utils.utils import set_random_seed
 
 
 @click.command()
@@ -15,7 +16,7 @@ from MEGNet.utils.utils import Scaler
 def main(dataset_path):
     dataset = MPDataset(dataset_path,
                         pre_transform=SimpleCrystalConverter(bond_converter=GaussianDistanceConverter()))
-    torch.manual_seed(17)
+    set_random_seed(17)
     dataset = dataset.shuffle()
 
     trainset = dataset[:64500]

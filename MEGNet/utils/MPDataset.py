@@ -2,7 +2,8 @@ import torch
 from torch_geometric.data import InMemoryDataset
 from monty.serialization import loadfn
 import os.path as osp
-from pymatgen.io.cif import CifParser
+from tqdm import tqdm
+from .utils import String2StructConverter
 
 
 class MPDataset(InMemoryDataset):
@@ -18,18 +19,12 @@ class MPDataset(InMemoryDataset):
     def processed_file_names(self):
         return ["data.pt"]
 
-    @staticmethod
-    def string2struct(elem, i):
-        if not i % 100:
-            print(i)
-        struct = CifParser.from_string(elem['structure']).get_structures()[0]
-        struct.y = elem['formation_energy_per_atom']
-        return struct
-
     def process(self):
         raw_data = loadfn(osp.join(self.raw_dir, "mp.2018.6.1.json"))
+        raw_data = raw_data[:100]
 
-        structures_list = [self.string2struct(s, i) for i, s in enumerate(raw_data)]
+        converter = String2StructConverter('formation_energy_per_atom')
+        structures_list = [converter.convert(s) for s in tqdm(raw_data)]
 
         if self.pre_transform is not None:
             data_list = [self.pre_transform(data) for data in structures_list]

@@ -1,5 +1,8 @@
 import numpy as np
 from copy import copy
+from pymatgen.io.cif import CifParser
+import torch
+import random
 
 
 class Scaler:
@@ -20,3 +23,21 @@ class Scaler:
         data_copy = copy(data)
         std = self.std if abs(self.std) > 1e-7 else 1.0
         return data_copy * std + self.mean
+
+
+class String2StructConverter:
+    def __init__(self, struct_target_name):
+        self.target_name = struct_target_name
+
+    def convert(self, elem):
+        struct = CifParser.from_string(elem['structure']).get_structures()[0]
+        struct.y = elem[self.target_name]
+        return struct
+
+
+def set_random_seed(seed):
+    torch.backends.cudnn.deterministic = True
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
