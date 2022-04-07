@@ -3,7 +3,7 @@ import click
 import os.path as osp
 import numpy as np
 
-from megnet.utils.models import load_model
+from megnet.models import MEGNetModel
 from MEGNet.utils.utils import set_random_seed
 from MEGNet.utils.utils import String2StructConverter
 from monty.serialization import loadfn
@@ -34,7 +34,7 @@ def main(dataset_path):
     cg = CrystalGraph(bond_converter=GaussianDistance(np.linspace(0, 5, 100), 0.5), cutoff=4)
     model = MEGNetModel(100, 2, 16, graph_converter=cg)
 
-    model.train(train_data, train_target, epochs=2)
+    model.train(train_data, list(train_target), epochs=2)
 
     preds = model.predict_structures(test_data)
     print(mean_absolute_error(test_target, preds))
