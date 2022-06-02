@@ -1,0 +1,4 @@
+is_str: false
+test_size: 0.3
+shuffle: true
+trainer: 'pytorch_trainer'

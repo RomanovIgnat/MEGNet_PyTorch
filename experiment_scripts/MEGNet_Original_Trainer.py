@@ -13,6 +13,14 @@ from megnet.data.graph import GaussianDistance
 from megnet.data.crystal import CrystalGraph
 
 
+class MEGNetOriginalTrainer:
+    def __init__(self, trainset, testset, config):
+        pass
+
+    def train(self):
+        pass
+
+
 @click.command()
 @click.argument('dataset_path')
 def main(dataset_path):

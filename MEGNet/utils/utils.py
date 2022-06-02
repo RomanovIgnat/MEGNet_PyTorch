@@ -1,8 +1,9 @@
 import numpy as np
 from copy import copy
-from pymatgen.io.cif import CifParser
 import torch
 import random
+
+from pymatgen.io.cif import CifParser
 
 
 class Scaler:
@@ -11,7 +12,7 @@ class Scaler:
         self.std = 1.0
 
     def fit(self, dataset, feature_name='y'):
-        data = np.array([getattr(dataset.get(i), feature_name).data.numpy() for i in range(len(dataset))])
+        data = np.array([getattr(dataset[i], feature_name) for i in range(len(dataset))])
         self.mean = np.mean(data)
         self.std = np.std(data)
 
@@ -26,12 +27,13 @@ class Scaler:
 
 
 class String2StructConverter:
-    def __init__(self, struct_target_name):
-        self.target_name = struct_target_name
+    def __init__(self, struct_target_names):
+        self.target_names = struct_target_names
 
     def convert(self, elem):
         struct = CifParser.from_string(elem['structure']).get_structures()[0]
-        struct.y = elem[self.target_name]
+        for name in self.target_names:
+            setattr(struct, name, elem[name])
         return struct
 
 

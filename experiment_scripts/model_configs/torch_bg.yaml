@@ -1,0 +1,18 @@
+data:
+  add_z_bond_coordinate: false
+  cutoff: 5
+  atom_features: 'embed'
+model:
+  edge_embed_size: 100
+  state_input_shape: 2
+  target_name: 'formation_energy_per_atom'
+  train_batch_size: 10
+  test_batch_size: 10
+  epochs: 1000
+optim:
+  lr_initial: 1.e-3
+  factor: 0.5
+  patience: 100
+  threshold: 5.e-2
+  min_lr: 1.e-5
+  scheduler: 'ReduceLROnPlateau'

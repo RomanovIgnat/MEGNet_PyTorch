@@ -1,5 +1,4 @@
-experiments_data/
-MEGNet/dataset_test.py
+experiments_data/mp.2018.6.1.json
 MEGNet_test.egg-info/
 .idea/
-__pycache__/
+**/__pycache__/
