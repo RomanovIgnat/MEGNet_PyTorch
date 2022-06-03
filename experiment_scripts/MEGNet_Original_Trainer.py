@@ -41,5 +41,6 @@ class MEGNetOriginalTrainer:
             self.test_structures,
             self.test_targets,
             epochs=self.config['model']['epochs'],
-            verbose=1
+            save_checkpoint=False,
+            dirname="experiment_scripts"
         )
