@@ -1,5 +1,5 @@
 data:
-  add_z_bond_coordinate: false
+  add_z_bond_coord: false
   cutoff: 5
   atom_features: 'embed'
 model:
