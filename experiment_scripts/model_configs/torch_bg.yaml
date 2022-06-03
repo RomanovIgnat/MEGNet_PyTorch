@@ -3,9 +3,9 @@ data:
   cutoff: 5
   atom_features: 'embed'
 model:
-  edge_embed_size: 100
+  edge_embed_size: 10
   state_input_shape: 2
-  target_name: 'formation_energy_per_atom'
+  target_name: 'band_gap'
   train_batch_size: 10
   test_batch_size: 10
   epochs: 1000

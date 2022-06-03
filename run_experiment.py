@@ -11,6 +11,8 @@ from MEGNet.utils.utils import set_random_seed
 from MEGNet.utils.utils import String2StructConverter
 from MEGNet.MEGNet_Trainer import MEGNetTrainer
 
+from experiment_scripts.MEGNet_Original_Trainer import MEGNetOriginalTrainer
+
 
 def set_return(o, name, val):
     setattr(o, name, val)
@@ -31,16 +33,16 @@ def parse_data(path, is_str):
 
 
 @click.command()
-@click.argument('dataset_path')
-@click.argument('experiment_config_path')
-@click.argument('model_config_path')
+@click.option('--dataset_path')
+@click.option('--experiment_config_path')
+@click.option('--model_config_path')
 def main(dataset_path, experiment_config_path, model_config_path):
     set_random_seed(17)
 
     with open(experiment_config_path) as ey:
-        experiment_config = yaml.safe_load(ey)
+        experiment_config = yaml.full_load(ey)
     with open(model_config_path) as my:
-        model_config = yaml.safe_load(my)
+        model_config = yaml.full_load(my)
 
     dataset = parse_data(dataset_path, experiment_config['is_str'])
     if experiment_config['shuffle']:
@@ -55,7 +57,7 @@ def main(dataset_path, experiment_config_path, model_config_path):
     if experiment_config['trainer'] == 'pytorch_trainer':
         trainer = MEGNetTrainer(trainset, testset, model_config)
     else:
-        raise NotImplementedError
+        trainer = MEGNetOriginalTrainer(trainset, testset, model_config)
 
     trainer.train()
 

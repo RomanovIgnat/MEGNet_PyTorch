@@ -19,6 +19,7 @@ class MEGNetTrainer:
     def __init__(self, trainset, testset, config):
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.config = config
+        self.target_name = config['model']['target_name']
 
         if self.config["data"]["add_z_bond_coord"]:
             bond_converter = FlattenGaussianDistanceConverter(
@@ -116,6 +117,7 @@ class MEGNetTrainer:
     def train(self):
         for epoch in range(self.config['model']['epochs']):
             print(f"===={epoch} out of {self.config['model']['epochs'] - 1} epochs====")
+            print(f'target: {self.target_name}')
 
             train_loss = self.one_epoch()
             validation_loss = self.validation()

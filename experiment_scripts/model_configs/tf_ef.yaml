@@ -1,0 +1,9 @@
+data:
+  cutoff: 5
+model:
+  nfeat_edge: 10
+  nfeat_global: 2
+  nfeat_node: ~
+  target_name: 'formation_energy_per_atom'
+  epochs: 1000
+  learning_rate: 1.e-3

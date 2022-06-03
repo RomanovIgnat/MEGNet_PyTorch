@@ -3,12 +3,12 @@ data:
   cutoff: 5
   atom_features: 'embed'
 model:
-  edge_embed_size: 100
+  edge_embed_size: 10
   state_input_shape: 2
   target_name: 'bulk_moduli'
   train_batch_size: 10
   test_batch_size: 10
-  epochs: 100
+  epochs: 10
 optim:
   lr_initial: 1.e-3
   factor: 0.5
