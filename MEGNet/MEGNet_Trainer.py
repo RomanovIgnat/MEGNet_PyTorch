@@ -117,7 +117,7 @@ class MEGNetTrainer:
     def train(self):
         for epoch in range(self.config['model']['epochs']):
             print(f"===={epoch} out of {self.config['model']['epochs'] - 1} epochs====")
-            print(f'target: {self.target_name}')
+            print(f'target: {self.target_name} device: {self.device}')
 
             train_loss = self.one_epoch()
             validation_loss = self.validation()
